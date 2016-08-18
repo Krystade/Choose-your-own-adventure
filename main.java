@@ -19,7 +19,7 @@ public class ChooseYourOwnAdventure {
         int randomChoice = (int) (Math.random()*5);
         int giveCoins = (int) (Math.random() * 25) + 5;
         int extraCoins = 2 * giveCoins;
-        //Set array for money [0] = gold, [1] = silver, [2] = bronze
+        //Set array for coins [0] = gold, [1] = silver, [2] = bronze
         int[] wallet = {0, giveCoins, 0};
             switch (randomChoice) {
                 case 1: choice = "knife";
@@ -43,7 +43,30 @@ public class ChooseYourOwnAdventure {
             JOptionPane.showMessageDialog(null, "Coins:\nGold = 100 silver\nSilver = " + 
                     "100 bronze\nBronze\n\nYou have " + wallet[0] + " gold coins, " + 
                     wallet[1] + " silver coins, and " + wallet[2] + " bronze coins.");
+        /*//begin loop for weapon choice
+        int option = 1;
+        while (option == 1){
+            option = 0;
 
+            //Prompt user to choose a weapon
+            choices = new String[]{"knife", "brass knuckles", "sling", "stick"};
+            choice = askUser(choices, "Make your choice", "weapons");
+            //Tell user what weapon they chose, give option to go back
+            Object[] options = {"Continue.", "Wait! I changed my mind"};
+            option = JOptionPane.showOptionDialog(
+            null, 
+            "You have chosen the " + choice + ".",
+            "message",
+            JOptionPane.YES_NO_OPTION,
+            JOptionPane.QUESTION_MESSAGE,
+            null,
+            options,
+            options[0]);
+        }*/
+        wallet[0] = 4;
+        wallet[1] = 3;
+        wallet[2] = 9;
+        subtractCoins(wallet, 5, 7, 45);
         //Define Base Stats
         int hp = 100;
         int stamina = 100;
@@ -155,31 +178,45 @@ public class ChooseYourOwnAdventure {
                 choices[0]);
         return s;
     }
-    //subtractMoney(wallet, 5, 7, 45);
-    //
-    static int[] subtractMoney(int[] wallet, int gold, int silver, int bronze){
+    
+    // addCoins(wallet, 0, 1, 55);
+    //used to add coins to user's inventory
+    static int[] addCoins(int[] wallet, int gold, int silver, int bronze){
+                wallet[2] += bronze;
+                while (wallet[2] > 100){ //converts extra bronze to silver
+                    wallet[2] -= 100;
+                    wallet[1] += 1;
+                }
+                wallet[1] += silver;
+                while (wallet[1] > 100){ //converts extra silver to gold
+                    wallet[1] -= 100;
+                    wallet[0] += 1;
+                }
+                wallet[0] += gold;
+                JOptionPane.showMessageDialog(null, "You now have " + wallet[0] +
+                        " gold coins, " + wallet[1] + " silver coins, and " + 
+                        wallet[2] + " bronze coins.");
+        return wallet;
+        }
+        //subtractCoins(wallet, 5, 7, 45);
+        //used to remove coins from user's inventory 
+        static int[] subtractCoins(int[] wallet, int gold, int silver, int bronze){
         int walletTotal = (wallet[0] * 10000) + (wallet[1] * 100) + (wallet[2]);
         int priceTotal = (gold * 10000) + (silver * 100) + (bronze);
         if (walletTotal < priceTotal){
-            JOptionPane.showMessageDialog(null, "You don't have enough money.");
+            JOptionPane.showMessageDialog(null, "You don't have enough coins.");
         }else{
-                while (bronze > wallet[2]){
+                while (bronze > wallet[2]){ //when there isn't enough bronze convert 1 silver to 100 bronze
                     silver += 1;
                     bronze -= 100;
                 }
-                while (silver > wallet[1]){
+                while (silver > wallet[1]){ //when there isn't enough silver convert 1 gold to 100 silver
                     gold += 1;
                     silver -= 100;
                 }
-                wallet[2] -= bronze;
-        
-                while (silver > wallet[1]){
-                    gold += 1;
-                    silver -= 100;
-                }
-                wallet[1] -= silver;
-        
-                wallet[0] -= gold;
+                wallet[2] -= bronze; //remove bronze
+                wallet[1] -= silver; //remove silver
+                wallet[0] -= gold;   //remove gold
                 JOptionPane.showMessageDialog(null, "You now have " + wallet[0] +
                         " gold coins, " + wallet[1] + " silver coins, and " + 
                         wallet[2] + " bronze coins.");
