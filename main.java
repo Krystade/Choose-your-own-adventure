@@ -1,4 +1,3 @@
-
 import java.util.Scanner;
 import javax.swing.JOptionPane;
 
@@ -11,13 +10,12 @@ public class ChooseYourOwnAdventure {
         String title;
         String subTitle;
         String[] choices;
-        int risk = 1;
         String choice = "null";
         //Have the user open a treasure chest and recieve their class/weapon/skill
         //This determines their base stats 
         JOptionPane.showMessageDialog(null,"You stumble upon a strange looking treasure chest. \nOpen the chest to begin you journey.");
-        int randomChoice = (int) (Math.random()*5);
-        int giveCoins = (int) (Math.random() * 25) + 5;
+        int randomChoice = (int) (Math.random() * 5) + 1;
+        int giveCoins = (int) (Math.random() * 70) + 5;
         int extraCoins = 2 * giveCoins;
         //Set array for coins [0] = gold, [1] = silver, [2] = bronze
         int[] wallet = {0, giveCoins, 0};
@@ -29,44 +27,18 @@ public class ChooseYourOwnAdventure {
                 JOptionPane.showMessageDialog(null,"You have recieved brass knuckles and " + giveCoins + " silver coins from the chest!");
                 break;
                 case 3: choice = "sling";
-                JOptionPane.showMessageDialog(null,"You have recieved a sling and " + giveCoins + " silver coins from the chest.");
+                JOptionPane.showMessageDialog(null,"You have recieved a sling and " + giveCoins + " silver coins from the chest!");
                 break;
                 case 4: choice = "stick";
-                JOptionPane.showMessageDialog(null,"You have recieved a stick and " + giveCoins + " silver coins from the chest?");
+                JOptionPane.showMessageDialog(null,"You have recieved a stick and " + giveCoins + " silver coins from the chest.");
                 break;
                 case 5: choice = "null";
                 JOptionPane.showMessageDialog(null,"You have got " + extraCoins + " silver coins from the chest...");
                 wallet[1] = extraCoins;
                 break;
             }
-            //Explain how much coins are worth
-            JOptionPane.showMessageDialog(null, "Coins:\nGold = 100 silver\nSilver = " + 
-                    "100 bronze\nBronze\n\nYou have " + wallet[0] + " gold coins, " + 
-                    wallet[1] + " silver coins, and " + wallet[2] + " bronze coins.");
-        /*//begin loop for weapon choice
-        int option = 1;
-        while (option == 1){
-            option = 0;
-
-            //Prompt user to choose a weapon
-            choices = new String[]{"knife", "brass knuckles", "sling", "stick"};
-            choice = askUser(choices, "Make your choice", "weapons");
-            //Tell user what weapon they chose, give option to go back
-            Object[] options = {"Continue.", "Wait! I changed my mind"};
-            option = JOptionPane.showOptionDialog(
-            null, 
-            "You have chosen the " + choice + ".",
-            "message",
-            JOptionPane.YES_NO_OPTION,
-            JOptionPane.QUESTION_MESSAGE,
-            null,
-            options,
-            options[0]);
-        }*/
-        wallet[0] = 4;
-        wallet[1] = 3;
-        wallet[2] = 9;
-        subtractCoins(wallet, 5, 7, 45);
+            //Explain how much coins are worth and display how much they have
+            showCoins(wallet);
         //Define Base Stats
         int hp = 100;
         int stamina = 100;
@@ -108,40 +80,55 @@ public class ChooseYourOwnAdventure {
                 magic += 100;
                 luck += 30;
                 break;
-            default:
+            case "null":
                 break;
         }
         //Display stats
         System.out.println("class = " + skill + "\nhp = " + hp + "\nstamina = " + stamina +
                 "\nattack = " + attack + "\nspeed = " + speed + "\nluck = " + luck + 
                 "\nstrength = " + strength + "\nmagic = " + magic + "\nxp = " + xp[0] + "\nrequiredXp = " + xp[1] +
-                "\nlevel = " + xp[2] + "\nrisk = " + risk );
+                "\nlevel = " + xp[2]);
         
        //Prompt user to go left or right
        int optionDialog = yesNo("choice","Will your journey begin going left, or going right?", "Left", "right");
        //Generate random number from 1 - 10 and luckDraw
        int random =(int) (Math.random() * 10);
-       int luckDraw = (int) (Math.random() * luck);
-       System.out.println("random = " + random);
-       System.out.println("luckDraw = " + luckDraw);
        //Branch if user chooses left
+       int count = 1;
        if(optionDialog == 0){
            System.out.println("Left");
            if(random <= 3){
-               int miles =(int) (Math.random()*50);
+               int miles = 0;
+               boolean luckCheck = luckTest(luck, 65); //perform a luckCheck to determine the max for miles walked
+               if (luckCheck == true){
+                    miles =(int) ((Math.random() * 29) + 1); //if luckCheck is passed they will walk between 1 and 30 miles
+               }else if(luckCheck == false){
+                   miles =(int) ((Math.random() * 50) + 1 ); //if luckCheck is failed they will walk between 1 and 50 miles
+               }
                JOptionPane.showMessageDialog(null, "You walk for " + miles + " miles before you see any signs of life.");
                System.out.println("Walk");
                if (miles > 20){
                    hp = subtractStat(hp, 15);
                    stamina = addStat(stamina, 15);
                }
+               
+               
+               
+               
+               
            }else if (3 < random && random <= 6 ){
                JOptionPane.showMessageDialog(null, "Somehow you managed to hitch a ride on a wagon to the closest town.");
                System.out.println("Wagon ride");
                luck = addStat(luck, 5);
+               
+               
+               
+               
+               
            }else{
-               JOptionPane.showMessageDialog(null, "");
-               System.out.println("");
+               JOptionPane.showMessageDialog(null, "Two hooded figures approach you without a word.");
+               
+               System.out.println("Hooded figures");
            }
            
        //Branch if user chooses right    
@@ -178,7 +165,12 @@ public class ChooseYourOwnAdventure {
                 choices[0]);
         return s;
     }
-    
+    //showCoins (wallet);
+    static void showCoins (int[] wallet){
+        JOptionPane.showMessageDialog(null, "Coins:\nGold = 100 silver\nSilver = " + 
+                    "100 bronze\n\nYou have " + wallet[0] + " gold coins, " + 
+                    wallet[1] + " silver coins, and " + wallet[2] + " bronze coins.");
+    }
     // addCoins(wallet, 0, 1, 55);
     //used to add coins to user's inventory
     static int[] addCoins(int[] wallet, int gold, int silver, int bronze){
@@ -217,23 +209,20 @@ public class ChooseYourOwnAdventure {
                 wallet[2] -= bronze; //remove bronze
                 wallet[1] -= silver; //remove silver
                 wallet[0] -= gold;   //remove gold
-                JOptionPane.showMessageDialog(null, "You now have " + wallet[0] +
-                        " gold coins, " + wallet[1] + " silver coins, and " + 
-                        wallet[2] + " bronze coins.");
+                showCoins (wallet);
             }
         return wallet;
         }
-    //should be between 10 and 110
-    //if(luckChance(luck, risk) == true){ System.out.println("Passed!");}
-    //else {System.out.println("Failed")}
-    static boolean luckChance(double luck, int risk){
-        int random = (int) (Math.random() * 100);
-        double luckChance = (luck *.01 * random);
-        boolean trueTest;
-        if (luckChance < risk){
-        trueTest = true;
-        }else {
-        trueTest = false;
+    //chance of success between 0 and 100
+    //if(luckChance(luck, 60) == true){ System.out.println("Passed!");  
+    //will return true 60% of the time with 100 luck and 60 risk, 78% of the time with 130 luck
+        static boolean luckTest(double luck, double risk){
+        boolean trueTest = true;               // default it to false
+        double luckPercent = luck * .01;        //change luck to a percent ex. 130 to 1.3 or 30%
+        risk = risk * luckPercent;              //generate the highest number for a success
+        double random =(Math.random() * 100);   //generate a random number between 0 and 100
+        if (risk < random){                     //if the random number is larger than the risk the test is passed
+            trueTest = false;
         }
         return trueTest;
     }
