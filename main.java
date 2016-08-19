@@ -10,35 +10,68 @@ public class ChooseYourOwnAdventure {
         String title;
         String subTitle;
         String[] choices;
-        String choice = "null";
+        String choice = "";
         //Have the user open a treasure chest and recieve their class/weapon/skill
         //This determines their base stats 
         JOptionPane.showMessageDialog(null,"You stumble upon a strange looking treasure chest. \nOpen the chest to begin you journey.");
         int randomChoice = (int) (Math.random() * 5) + 1;
-        int giveCoins = (int) (Math.random() * 70) + 5;
-        int extraCoins = 2 * giveCoins;
+        int giveCoins = (int) (Math.random() * 30) + 5;
         //Set array for coins [0] = gold, [1] = silver, [2] = bronze
-        int[] wallet = {0, giveCoins, 0};
+        int[] wallet = {0, 0, 0};
             switch (randomChoice) {
                 case 1: choice = "knife";
-                JOptionPane.showMessageDialog(null,"You have recieved a knife and " + giveCoins + " silver coins from the chest!");
+                addCoins(wallet, 0, giveCoins, 0);
+                if (wallet[0] == 0){ //Check if the user gets any gold or only silver
+                    int coins = wallet[1];
+                JOptionPane.showMessageDialog(null,"You have recieved a " + choice + " and " + coins + " silver coins from the chest!");
+                showCoins(wallet);
                 break;
+                }else{
+                    int sCoin = wallet[1];
+                    JOptionPane.showMessageDialog(null,"You have recieved a gold coin and " + sCoin + " silver coins from the chest...");
+                showCoins(wallet);
+                break;
+                }
                 case 2: choice = "brass knuckles";
-                JOptionPane.showMessageDialog(null,"You have recieved brass knuckles and " + giveCoins + " silver coins from the chest!");
+                addCoins(wallet, 0, giveCoins, 0);
+                if (wallet[0] == 0){ //Check if the user gets any gold or only silver
+                    int coins = wallet[1];
+                JOptionPane.showMessageDialog(null,"You have recieved a " + choice + " and " + coins + " silver coins from the chest!");
+                showCoins(wallet);
                 break;
+                }else{
+                    int sCoin = wallet[1];
+                    JOptionPane.showMessageDialog(null,"You have recieved a gold coin and " + sCoin + " silver coins from the chest...");
+                showCoins(wallet);
+                break;
+                }
                 case 3: choice = "sling";
-                JOptionPane.showMessageDialog(null,"You have recieved a sling and " + giveCoins + " silver coins from the chest!");
+                addCoins(wallet, 0, giveCoins, 0);
+                if (wallet[0] == 0){ //Check if the user gets any gold or only silver
+                    int coins = wallet[1];
+                JOptionPane.showMessageDialog(null,"You have recieved a " + choice + " and " + coins + " silver coins from the chest!");
+                showCoins(wallet);
                 break;
-                case 4: choice = "stick";
-                JOptionPane.showMessageDialog(null,"You have recieved a stick and " + giveCoins + " silver coins from the chest.");
+                }else{
+                    int sCoin = wallet[1];
+                    JOptionPane.showMessageDialog(null,"You have recieved a gold coin and " + sCoin + " silver coins from the chest...");
+                showCoins(wallet);
                 break;
+                }
                 case 5: choice = "null";
-                JOptionPane.showMessageDialog(null,"You have got " + extraCoins + " silver coins from the chest...");
-                wallet[1] = extraCoins;
+                addCoins(wallet, 0, giveCoins, 0);
+                if (wallet[0] == 0){ //Check if the user gets any gold or only silver
+                    int coins = wallet[1];
+                JOptionPane.showMessageDialog(null,"You have recieved a " + choice + " and " + coins + " silver coins from the chest!");
+                showCoins(wallet);
                 break;
+                }else{
+                    int sCoin = wallet[1];
+                    JOptionPane.showMessageDialog(null,"You have recieved a gold coin and " + sCoin + " silver coins from the chest...");
+                showCoins(wallet);
+                break;
+                }
             }
-            //Explain how much coins are worth and display how much they have
-            showCoins(wallet);
         //Define Base Stats
         int hp = 100;
         int stamina = 100;
@@ -92,7 +125,7 @@ public class ChooseYourOwnAdventure {
        //Prompt user to go left or right
        int optionDialog = yesNo("choice","Will your journey begin going left, or going right?", "Left", "right");
        //Generate random number from 1 - 10 and luckDraw
-       //int random =(2);///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+       //int random = 2;///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
        int random =(int) (Math.random() * 10) + 1;
        //Branch if user chooses left
        int count = 1;
@@ -145,40 +178,23 @@ public class ChooseYourOwnAdventure {
                        
                    }
                }else if (miles > 40){
-                   int randomCoins = (int) (Math.random() * 2) + 1;
-                   String randomCoin = "";
-                   switch (randomCoins){
-                       case 1: randomCoin = "Silver";
-                       break;
-                       case 2: randomCoin = "Bronze";
-                       break;
-                   }
-                   int randomNum = 0;
-                   if (randomCoin == "Silver"){
-                       randomNum = (int) (Math.random() * 65) + 1; //if the coin chosen is silver choose a number between 1 and 65
-                   }else if (randomCoin == "Bronze"){
-                       randomNum = (int) (Math.random() * 99) + 1; //if the coin chosen is bronze choose a number between 1 and 99
-                   }
+                   int randomBronze = (int) (Math.random() * 65);
+                   int randomSilver = (int) (Math.random() * 65) + 1;
                    System.out.println("Bridge");
+                   if (randomBronze == 0){
                    optionDialog = yesNo("", "You come across a bridge guarded by two extremely threatening bandits" + 
-                           ", \nthey demand " + randomNum + " " + randomCoin + ".", "Fight!", "pay up.");   //Pompt the user to choose to fight the bandits or pay them
-                   System.out.println(optionDialog);
+                           ", \nthey demand " + randomSilver + " silver coins!", "Fight!", "pay up.");   //Pompt the user to choose to fight the bandits or pay them
+                   }else if(randomBronze != 0){
+                       optionDialog = yesNo("", "You come across a bridge guarded by two extremely threatening bandits" + 
+                           ", \nthey demand " + randomSilver + " silver and " + randomBronze + " bronze coins!", "Fight!", "pay up.");   //Pompt the user to choose to fight the bandits or pay them
+                   }
                    if(optionDialog == 1){  //user chose to pay up
-                       if(randomCoin == "Silver"){ //if the bandits demand silver
                        int[] originalWallet = wallet; //used to check if subtractCoins() later on was successful
-                       subtractCoins(wallet, 0, randomNum, 0 );
+                       subtractCoins(wallet, 0, randomSilver, randomBronze );
                             if (originalWallet == wallet){
                                 optionDialog = 1;
                                 JOptionPane.showMessageDialog(null, "You're going to have to fight!"); //if user doesn't have enough coins they are forced to fight
                             }
-                    }else if (randomCoin == "Bronze"){ //if the bandits demand bronze
-                        int[] originalWallet = wallet; //used to check if subtractCoins() later on was successful
-                        subtractCoins(wallet, 0, 0, randomNum );
-                            if (originalWallet == wallet){
-                                optionDialog = 1;
-                                JOptionPane.showMessageDialog(null, "You're going to have to fight!"); //if user doesn't have enough coins they are forced to fight
-                            }
-                    }
                        
                        
                    }if (optionDialog == 0){ //user chose to fight
@@ -266,10 +282,7 @@ public class ChooseYourOwnAdventure {
                     wallet[0] += 1;
                 }
                 wallet[0] += gold;
-                JOptionPane.showMessageDialog(null, "You now have " + wallet[0] +
-                        " gold coins, " + wallet[1] + " silver coins, and " + 
-                        wallet[2] + " bronze coins.");
-        return wallet;
+                return wallet;
         }
         //subtractCoins(wallet, 5, 7, 45);
         //used to remove coins from user's inventory 
