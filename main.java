@@ -92,7 +92,8 @@ public class ChooseYourOwnAdventure {
        //Prompt user to go left or right
        int optionDialog = yesNo("choice","Will your journey begin going left, or going right?", "Left", "right");
        //Generate random number from 1 - 10 and luckDraw
-       int random =(int) (Math.random() * 10);
+       //int random =(2);///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+       int random =(int) (Math.random() * 10) + 1;
        //Branch if user chooses left
        int count = 1;
        if(optionDialog == 0){
@@ -107,17 +108,96 @@ public class ChooseYourOwnAdventure {
                }
                JOptionPane.showMessageDialog(null, "You walk for " + miles + " miles before you see any signs of life.");
                System.out.println("Walk");
+               //miles = 45;//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                if (miles > 20){
                    hp = subtractStat(hp, 15);
                    stamina = addStat(stamina, 15);
+               }
+               if (miles <= 20){
+                   System.out.println("Cave");
+                   yesNo("Cave", "While walking you come across a spooky looking cave, \nwill you explore it?", "uhhh, sure.", "of course not!");
+                   if(optionDialog == 0){
+                       
+                       
+                       
+                       
+                       
+                       
+                   }else if (optionDialog == 1){
+                       miles = 40;
+                       }
+                   
+               }else if (miles <= 40 && miles > 20){
+                   System.out.println("Forest");
+                   yesNo("Forest", "As you continue down the road you notice a \ndark forest looming in the distance, do " + ""
+                           + "you explore it?", "of course!", "no thanks....");
+                   if(optionDialog == 0){
+                       
+                       
+                       
+                       
+                       
+                   }else if (optionDialog == 1){
+                       
+                       
+                       
+                       
+                       
+                   }
+               }else if (miles > 40){
+                   int randomCoins = (int) (Math.random() * 2) + 1;
+                   String randomCoin = "";
+                   switch (randomCoins){
+                       case 1: randomCoin = "Silver";
+                       break;
+                       case 2: randomCoin = "Bronze";
+                       break;
+                   }
+                   int randomNum = 0;
+                   if (randomCoin == "Silver"){
+                       randomNum = (int) (Math.random() * 65) + 1; //if the coin chosen is silver choose a number between 1 and 65
+                   }else if (randomCoin == "Bronze"){
+                       randomNum = (int) (Math.random() * 99) + 1; //if the coin chosen is bronze choose a number between 1 and 99
+                   }
+                   System.out.println("Bridge");
+                   optionDialog = yesNo("", "You come across a bridge guarded by two extremely threatening bandits" + 
+                           ", \nthey demand " + randomNum + " " + randomCoin + ".", "Fight!", "pay up.");   //Pompt the user to choose to fight the bandits or pay them
+                   System.out.println(optionDialog);
+                   if(optionDialog == 1){  //user chose to pay up
+                       if(randomCoin == "Silver"){ //if the bandits demand silver
+                       int[] originalWallet = wallet; //used to check if subtractCoins() later on was successful
+                       subtractCoins(wallet, 0, randomNum, 0 );
+                            if (originalWallet == wallet){
+                                optionDialog = 1;
+                                JOptionPane.showMessageDialog(null, "You're going to have to fight!"); //if user doesn't have enough coins they are forced to fight
+                            }
+                    }else if (randomCoin == "Bronze"){ //if the bandits demand bronze
+                        int[] originalWallet = wallet; //used to check if subtractCoins() later on was successful
+                        subtractCoins(wallet, 0, 0, randomNum );
+                            if (originalWallet == wallet){
+                                optionDialog = 1;
+                                JOptionPane.showMessageDialog(null, "You're going to have to fight!"); //if user doesn't have enough coins they are forced to fight
+                            }
+                    }
+                       
+                       
+                   }if (optionDialog == 0){ //user chose to fight
+                       
+                       
+                       
+                       
+                       
+                       
+                       
+                   }
+                   
                }
                
                
                
                
-               
            }else if (3 < random && random <= 6 ){
-               JOptionPane.showMessageDialog(null, "Somehow you managed to hitch a ride on a wagon to the closest town.");
+               JOptionPane.showMessageDialog(null, "Somehow you managed to hitch a ride on a wagon to the nearest village.");
                System.out.println("Wagon ride");
                luck = addStat(luck, 5);
                
@@ -141,9 +221,10 @@ public class ChooseYourOwnAdventure {
        }
         
     }
+        // optionDialog = yesNo("title", "subTitle", "option1", "option2");
         static int yesNo(String title, String subTitle, String choice1, String choice2) {
         Object[] options = {choice1, choice2};
-        int m = JOptionPane.showOptionDialog(null, 
+        int yn = JOptionPane.showOptionDialog(null, 
                 subTitle, 
                 title,
                 JOptionPane.YES_NO_OPTION,
@@ -151,9 +232,9 @@ public class ChooseYourOwnAdventure {
                 null,     //do not use a custom Icon
                 options,  //the titles of buttons
                 options[0]); //default button title
-        return m;
+        return yn;
         }
-
+        // ADD INSTRUCTIONS HERE //////////////////////////////////////////////////////////////////////////////////////////
         static String askUser(String[] choices, String subTitle, String title) {
         String s = (String) JOptionPane.showInputDialog(
                 null,
@@ -209,7 +290,6 @@ public class ChooseYourOwnAdventure {
                 wallet[2] -= bronze; //remove bronze
                 wallet[1] -= silver; //remove silver
                 wallet[0] -= gold;   //remove gold
-                showCoins (wallet);
             }
         return wallet;
         }
