@@ -86,8 +86,7 @@ public class ChooseYourOwnAdventure {
             String skill = "";      // stats[9]
             int[] xp = {experience, requiredXp, level};
             int [] stats = {hp, stamina, attack, speed, luck, magic, xp[0], xp[1], xp[2], 0};
-        
-   choice = "none";
+            
             //Define skill stats
             switch (choice) {
                 case "knife":
@@ -124,8 +123,6 @@ public class ChooseYourOwnAdventure {
             }
             //Display stats
             showStatsOriginal(stats);
-        addXp(stats, 220);
-        
        //Prompt user to go left or right
        int optionDialog = yesNo("choice","Will your journey begin going left, or going right?", "Left", "right");
        //Generate random number from 1 - 10 and luckDraw
