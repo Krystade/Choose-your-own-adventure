@@ -4,12 +4,12 @@ import javax.swing.JOptionPane;
 
 public class ChooseYourOwnAdventure {
     public static void main(String[]args){
-        //Begin while loop to allow for playing again
+        /*//Begin while loop to allow for playing again
         boolean playAgain = true;
         while (playAgain == true){
             //begin while loop to determine when user dies/loses
             boolean dead = false;
-            while (dead == false){
+            while (dead == false){*/
         //Define variables
         String title;
         String subTitle;
@@ -181,7 +181,6 @@ public class ChooseYourOwnAdventure {
                        
                        
                    }
-                   int count = 1;
                }else if (miles > 40){
                    int randomBronze = (int) (Math.random() * 65);
                    int randomSilver = (int) (Math.random() * 65) + 1;
@@ -219,15 +218,62 @@ public class ChooseYourOwnAdventure {
                
                
            }else if (3 < random && random <= 6 ){
-               JOptionPane.showMessageDialog(null, "Somehow you managed to hitch a ride on a wagon to the nearest village.");
+               JOptionPane.showMessageDialog(null, "Somehow you managed to hitch a ride on a wagon to a nearby village.");
                System.out.println("Wagon ride");
                luck = addStat(luck, 5);
-               
+               random = (int) (Math.random() * 3) + 1;
+               String sizeOne = "";
+               String sizeTwo = "";
+               String sizeThree = "";
+               switch (random){
+                   case 1:
+                       sizeOne = "small";
+                       sizeTwo = "medium";
+                       sizeThree = "large";
+                       break;
+                    case 2:
+                       sizeOne = "large";
+                       sizeTwo = "small";
+                       sizeThree = "medium";
+                       break;
+                    case 3:
+                       sizeOne = "medium";
+                       sizeTwo = "large";
+                       sizeThree = "small";
+                       break;
+               }
+               optionDialog = yesNo("Wagon Ride", "You arrive at a " + sizeOne + 
+                       " village surrounded by a scorching desert. Do you stop to investigate or continue?", "stop", "continue");
+                   if(optionDialog == 0){
+                       System.out.println("Stop 1");
+                       
+                       
+                       
+                       
+                   }else if (optionDialog == 1){
+                       System.out.println("Continue 1");
+                       optionDialog = yesNo("Wagon Ride", "You arrive at a " + sizeTwo + 
+                       " village enveloped by a dense forest. Do you stop to investigate or continue?", "stop", "continue");
+                       if(optionDialog == 0){
+                       System.out.println("Stop 2");
+                       
+                       
+                       
+                       
+                   }else if (optionDialog == 1){
+                       System.out.println("Continue 2");
+                       JOptionPane.showMessageDialog(null,"You arrive at a " + sizeThree + 
+                       " village with un-ending plains on evey side. The wagon will take you no further.");
+                       if(optionDialog == 0){
+                       System.out.println("Final Stop");   
+                   }    
+                   }    
+                   }
                
                
                
                // have all the wagon paths meet up here possibly
-           }else{
+           }else if(random > 6){
                JOptionPane.showMessageDialog(null, "Two hooded figures approach you without a word.");
                
                System.out.println("Hooded figures");
@@ -244,15 +290,18 @@ public class ChooseYourOwnAdventure {
            
        }
         
-    }
+    }/*
+            System.out.println("Dead");
+            dead = true;
             //you have died
             //show stats, coins, level?
             //give score?
         }
+        playAgain = false;
         //Would you like to play again?
         //yes = do nothing
         //no = set playAgain = false
-}
+}*/
         // optionDialog = yesNo("title", "subTitle", "option1", "option2");
         static int yesNo(String title, String subTitle, String choice1, String choice2) {
         Object[] options = {choice1, choice2};
@@ -324,7 +373,7 @@ public class ChooseYourOwnAdventure {
         return wallet;
         }
         //used to calculate whether or not an attack is successful
-        //combatTest(stats, 70) risk level of 70
+        //combatTest(stats, 70) risk level of 70 is successful sometimes risk level of 40 is successful often
         static boolean combatTest(int[] stats, double risk){
             boolean combatTest = true;              // default it to false
             double random = Math.random() * 100;    // generate a random number between 1 to 100
