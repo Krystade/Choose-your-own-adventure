@@ -4,8 +4,12 @@ import javax.swing.JOptionPane;
 
 public class ChooseYourOwnAdventure {
     public static void main(String[]args){
-        //Create Scanner object
-        Scanner input = new Scanner(System.in);
+        //Begin while loop to allow for playing again
+        boolean playAgain = true;
+        while (playAgain == true){
+            //begin while loop to determine when user dies/loses
+            boolean dead = false;
+            while (dead == false){
         //Define variables
         String title;
         String subTitle;
@@ -18,7 +22,6 @@ public class ChooseYourOwnAdventure {
         int giveCoins = (int) (Math.random() * 30) + 5;
         //Set array for coins [0] = gold, [1] = silver, [2] = bronze
         int[] wallet = {0, 0, 0};
-        randomChoice = 5;
             switch (randomChoice) {
                 case 1: choice = "knife";
                 addCoins(wallet, 0, giveCoins, 0);
@@ -107,6 +110,7 @@ public class ChooseYourOwnAdventure {
                 case "sling":
                     skill = "archer";
                     stats[0] -= 50; // hp
+                    stats[3] += 50; // speed
                     stats[4] += 25; // luck
                     stats[9] += 3;
                     break;
@@ -123,6 +127,8 @@ public class ChooseYourOwnAdventure {
             }
             //Display stats
             showStatsOriginal(stats);
+        addXp(stats, 220);
+        
        //Prompt user to go left or right
        int optionDialog = yesNo("choice","Will your journey begin going left, or going right?", "Left", "right");
        //Generate random number from 1 - 10 and luckDraw
@@ -130,6 +136,7 @@ public class ChooseYourOwnAdventure {
        //Branch if user chooses left
        if(optionDialog == 0){
            System.out.println("Left");
+           random = 1; /////////////////////////////////////////////////////////////////////
            if(random <= 3){
                int miles = 0;
                boolean luckCheck = luckTest(luck, 65); //perform a luckCheck to determine the max for miles walked
@@ -140,7 +147,7 @@ public class ChooseYourOwnAdventure {
                }
                JOptionPane.showMessageDialog(null, "You walk for " + miles + " miles before you see any signs of life.");
                System.out.println("Walk");
-               //miles = 45;//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+               miles = 45;//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                if (miles > 20){
                    hp = subtractStat(hp, 15);
                    stamina = addStat(stamina, 15);
@@ -176,7 +183,10 @@ public class ChooseYourOwnAdventure {
                        
                        
                    }
+                   int count = 1;
                }else if (miles > 40){
+                   int count = 1;///////////////////////////////////////////////
+                   while (count < 20){///////////////////////////////////////////////////////////
                    int randomBronze = (int) (Math.random() * 65);
                    int randomSilver = (int) (Math.random() * 65) + 1;
                    System.out.println("Bridge");
@@ -197,7 +207,9 @@ public class ChooseYourOwnAdventure {
                        
                        
                    }if (optionDialog == 0){ //user chose to fight
+                       boolean combatTest = combatTest(stats, 40);
                        
+                       System.out.println(combatTest);
                        
                        
                        
@@ -205,7 +217,7 @@ public class ChooseYourOwnAdventure {
                        
                        
                    }
-                   
+                       }//////////////////////////////////////////////////////////////////////////
                }
                // have all the walking paths meet up here possibly
                
@@ -238,6 +250,14 @@ public class ChooseYourOwnAdventure {
        }
         
     }
+            //you have died
+            //show stats, coins, level?
+            //give score?
+        }
+        //Would you like to play again?
+        //yes = do nothing
+        //no = set playAgain = false
+}
         // optionDialog = yesNo("title", "subTitle", "option1", "option2");
         static int yesNo(String title, String subTitle, String choice1, String choice2) {
         Object[] options = {choice1, choice2};
@@ -309,13 +329,18 @@ public class ChooseYourOwnAdventure {
         return wallet;
         }
         //used to calculate whether or not an attack is successful
-        //combatTest(attack, risk)
-        static boolean combatTest(int attack, double risk){
+        //combatTest(stats, 70) risk level of 70
+        static boolean combatTest(int[] stats, double risk){
             boolean combatTest = true;              // default it to false
             double random = Math.random() * 100;    // generate a random number between 1 to 100
-            risk = risk * .01;
-            risk = risk * 100;
-            if (risk < random){                     // if the random number is larger than the risk the test is passed
+            double luck = stats[5] * .01;
+            double attack = .05 * stats[1] * luck;
+            double hp = .025 * stats[0] * luck;
+            double magic = .025 * stats[4] * luck;
+            double stamina = .0125 * stats[2] * luck;
+            double speed = .0125 * stats[3] * luck;
+            risk -= attack - hp - magic - stamina - speed;
+            if (risk > random){                     // if the random number is larger than the risk the test is passed
                 combatTest = false;
             }
             return combatTest;
@@ -405,11 +430,12 @@ public class ChooseYourOwnAdventure {
         original += plus;
         return original;
     }
-    //hp = subtractStat(hp,50);
+    //hp = subtractStat(stats[0],50); // subtract 50 stats
     static int subtractStat(int original, int minus) {
         original -= minus;
         return original;
     }
+    //used at the beginning of the code once.
     static void showStatsOriginal(int[] stats){
         JOptionPane.showMessageDialog(null, "Your Current Stats: \nHp: " +
                 stats[0] + "\nStamina: " + stats[1] + "\nAttack: " + stats[2] +
