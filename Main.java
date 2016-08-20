@@ -18,6 +18,7 @@ public class ChooseYourOwnAdventure {
         int giveCoins = (int) (Math.random() * 30) + 5;
         //Set array for coins [0] = gold, [1] = silver, [2] = bronze
         int[] wallet = {0, 0, 0};
+        randomChoice = 5;
             switch (randomChoice) {
                 case 1: choice = "knife";
                 addCoins(wallet, 0, giveCoins, 0);
@@ -36,7 +37,7 @@ public class ChooseYourOwnAdventure {
                 addCoins(wallet, 0, giveCoins, 0);
                 if (wallet[0] == 0){ //Check if the user gets any gold or only silver
                     int coins = wallet[1];
-                JOptionPane.showMessageDialog(null,"You have recieved a " + choice + " and " + coins + " silver coins from the chest!");
+                JOptionPane.showMessageDialog(null,"You have recieved " + choice + " and " + coins + " silver coins from the chest!");
                 showCoins(wallet);
                 break;
                 }else{
@@ -58,11 +59,11 @@ public class ChooseYourOwnAdventure {
                 showCoins(wallet);
                 break;
                 }
-                case 5: choice = "null";
+                case 5: choice = "none";
                 addCoins(wallet, 0, giveCoins, 0);
                 if (wallet[0] == 0){ //Check if the user gets any gold or only silver
                     int coins = wallet[1];
-                JOptionPane.showMessageDialog(null,"You have recieved a " + choice + " and " + coins + " silver coins from the chest!");
+                JOptionPane.showMessageDialog(null,"You have recieved " + coins + " silver coins from the chest!");
                 showCoins(wallet);
                 break;
                 }else{
@@ -73,27 +74,28 @@ public class ChooseYourOwnAdventure {
                 }
             }
             //Define Base Stats
-            int hp = 100;       // stats[0]
-            int stamina = 100;  // stats[1]
-            int attack = 100;   // stats[2]
-            int speed = 100;    // stats[3]
-            int luck = 100;     // stats[4]
-            int magic = 0;      // stats[5]
-            int experience = 0;
-            int level = 1;
-            int requiredXp = 100;
+            int hp = 100;           // stats[0]
+            int stamina = 100;      // stats[1]
+            int attack = 100;       // stats[2]
+            int speed = 100;        // stats[3]
+            int luck = 100;         // stats[4]
+            int magic = 0;          // stats[5]
+            int experience = 0;     // stats[6]
+            int requiredXp = 100;   // stats[7]
+            int level = 1;          // stats[8]
+            String skill = "";      // stats[9]
             int[] xp = {experience, requiredXp, level};
-            int [] stats = {hp, stamina, attack, speed, luck, magic, xp[0], xp[1], xp[2]};
+            int [] stats = {hp, stamina, attack, speed, luck, magic, xp[0], xp[1], xp[2], 0};
         
-   
+   choice = "none";
             //Define skill stats
-            String skill = "";
             switch (choice) {
                 case "knife":
                     skill = "warrior";
                     stats[0] += 50; // hp
                     stats[1] += 25; // stamina
                     stats[2] += 50; // attack
+                    stats[9] += 1;
                     break;
                 case "brass knuckles":
                     skill = "fighter";
@@ -101,24 +103,28 @@ public class ChooseYourOwnAdventure {
                     stats[3] += 25; // speed
                     stats[1] += 50; // stamina
                     stats[2] += 25; // attack
+                    stats[9] += 2;
                     break;
                 case "sling":
                     skill = "archer";
                     stats[0] -= 50; // hp
-                    stats[4] += 15; // luck
+                    stats[4] += 25; // luck
+                    stats[9] += 3;
                     break;
                 case "stick":
                     skill = "mage";
                     stats[0] -= 50; // hp
                     stats[5] += 100; // magic
-                    stats[4] += 30; // luck
+                    stats[4] += 50; // luck
+                    stats[9] += 4;
                     break;
-                case "null":
+                case "none":
+                    stats[9] += 5;
                     break;
             }
             //Display stats
-            showStats(stats);
-        addXp(stats, xp, 2000);
+            showStatsOriginal(stats);
+        addXp(stats, 220);
         
        //Prompt user to go left or right
        int optionDialog = yesNo("choice","Will your journey begin going left, or going right?", "Left", "right");
@@ -188,7 +194,7 @@ public class ChooseYourOwnAdventure {
                        int[] originalWallet = wallet; //used to check if subtractCoins() later on was successful
                        subtractCoins(wallet, 0, randomSilver, randomBronze );
                             if (originalWallet == wallet){
-                                optionDialog = 1;
+                                optionDialog = 0;
                                 JOptionPane.showMessageDialog(null, "You're going to have to fight!"); //if user doesn't have enough coins they are forced to fight
                             }
                        
@@ -204,7 +210,7 @@ public class ChooseYourOwnAdventure {
                    }
                    
                }
-               
+               // have all the walking paths meet up here possibly
                
                
                
@@ -216,12 +222,14 @@ public class ChooseYourOwnAdventure {
                
                
                
-               
+               // have all the wagon paths meet up here possibly
            }else{
                JOptionPane.showMessageDialog(null, "Two hooded figures approach you without a word.");
                
                System.out.println("Hooded figures");
            }
+           // have all the Hooded paths meet up here possibly
+           
            
        //Branch if user chooses right    
        }else if (optionDialog == 1){
@@ -308,7 +316,8 @@ public class ChooseYourOwnAdventure {
         static boolean combatTest(int attack, double risk){
             boolean combatTest = true;              // default it to false
             double random = Math.random() * 100;    // generate a random number between 1 to 100
-            risk = risk;
+            risk = risk * .01;
+            risk = risk * 100;
             if (risk < random){                     // if the random number is larger than the risk the test is passed
                 combatTest = false;
             }
@@ -328,35 +337,72 @@ public class ChooseYourOwnAdventure {
         return trueTest;
     }
 
-    //Add xp for completing a task, check if xp > 100, if so subtract 100 xp and add a level
-    //addXp(stats, xp, 160);     will add 160 xp leveling from level 1 to level 2
-    static int[] addXp (int[] stats, int[]xp, int plusXP){
-        int experience = xp[0];
-        int requiredXp = xp[1];
-        int level = xp[2];
+        //Add xp for completing a task, check if xp > 100, if so subtract 100 xp and add a level
+        //addXp(stats, 50) //addXp(int[] stats, int plusXp) will add 50 xp and level up if possible
+        static int[] addXp (int[] stats, int plusXP){
+        int experience = stats[6];
+        int requiredXp = stats[7];
+        int level = stats[8];
         double plusRequiredXp = 0;
-        experience += plusXP;
-        while (experience > requiredXp){
-            experience -= requiredXp;
+        stats[6] += plusXP;
+        while (stats[6] > stats[7]){
+            stats[6] -= stats[7];
             plusRequiredXp = (level * .1);
-            plusRequiredXp = (plusRequiredXp * requiredXp);
-            requiredXp = (int)(requiredXp + plusRequiredXp);
-            level += 1;
+            plusRequiredXp = (plusRequiredXp * stats[7]);
+            stats[7] = (int)(stats[7] + plusRequiredXp);
+            stats[8] += 1;
             JOptionPane.showMessageDialog(null,"You leveled up!");
-            showStats(stats);
+            int [] statsOld = {0,0,0,0,0,0};
+                statsOld[0] = stats[0];
+                statsOld[1] = stats[1];
+                statsOld[2] = stats[2];
+                statsOld[3] = stats[3];
+                statsOld[4] = stats[4];
+                statsOld[5] = stats[5];
+            switch (stats[9]){
+                case 1:
+                    stats[0] += 5;
+                    stats[1] += 4;
+                    stats[2] += 5;
+                    
+                    break;
+                case 2:
+                    stats[0] += 4;
+                    stats[1] += 5;
+                    stats[2] += 4;
+                    stats[3] += 4;
+                    
+                    break;
+                case 3:
+                    stats[0] += 1;
+                    stats[4] += 6;
+                    break;
+                case 4:
+                    stats[0] += 1;
+                    stats[4] += 5;
+                    stats[5] += 7;
+                    break;
+                case 5:
+                    stats[0] += 3;
+                    stats[1] += 3;
+                    stats[2] += 3;
+                    stats[3] += 3;
+                    stats[4] += 3;
+                    stats[5] += 3;
+                    break;
+            }
+            showStats(stats, statsOld);
         }
-        xp[0] = experience;
-        xp[1] = requiredXp;
-        xp[2] = level;
-        return xp;
+        return stats;
     }
     //showStats(stats);
-    static void showStats(int[] stats){
+    static void showStats(int[] stats, int[] statsOld){
         JOptionPane.showMessageDialog(null, "Your Current Stats: \nHp: " +
-                stats[0] + "\nStamina: " + stats[1] + "\nAttack: " + stats[2] +
-                "\nSpeed: " + stats[3] + "\nLuck: " + stats[4] + "\nMagic: " + 
-                stats[5] + "\n\n\nXP: " + stats[6] + "/" + stats[7] + "\nLevel: " + stats[8] );
+                statsOld[0] + "  >>>  " + stats[0] + "\nStamina: " + statsOld[1] + "  >>>  " +  stats[1] + "\nAttack: " + statsOld[2] + "  >>>  " + 
+                stats[2] + "\nSpeed: " + statsOld[3] + "  >>>  " + stats[3] + "\nLuck: " + statsOld[4] + "  >>>  " + stats[4] + "\nMagic: " + 
+                statsOld[5] + "  >>>  " + stats[5] + "\n\n\nXP: " + stats[6] +  "/" + stats[7] +  "\nLevel: " + stats[8]);
     }
+    
     //hp = addStat(stats[0], 50); // add 50 hp
     static int addStat(int original, int plus) {
         original += plus;
@@ -366,5 +412,11 @@ public class ChooseYourOwnAdventure {
     static int subtractStat(int original, int minus) {
         original -= minus;
         return original;
+    }
+    static void showStatsOriginal(int[] stats){
+        JOptionPane.showMessageDialog(null, "Your Current Stats: \nHp: " +
+                stats[0] + "\nStamina: " + stats[1] + "\nAttack: " + stats[2] +
+                "\nSpeed: " + stats[3] + "\nLuck: " + stats[4] + "\nMagic: " + 
+                stats[5] + "\n\n\nXP: " + stats[6] + "/" + stats[7] + "\nLevel: " + stats[8] );
     }
 }
