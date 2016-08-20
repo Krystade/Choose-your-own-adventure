@@ -136,7 +136,6 @@ public class ChooseYourOwnAdventure {
        //Branch if user chooses left
        if(optionDialog == 0){
            System.out.println("Left");
-           random = 1; /////////////////////////////////////////////////////////////////////
            if(random <= 3){
                int miles = 0;
                boolean luckCheck = luckTest(luck, 65); //perform a luckCheck to determine the max for miles walked
@@ -147,7 +146,6 @@ public class ChooseYourOwnAdventure {
                }
                JOptionPane.showMessageDialog(null, "You walk for " + miles + " miles before you see any signs of life.");
                System.out.println("Walk");
-               miles = 45;//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                if (miles > 20){
                    hp = subtractStat(hp, 15);
                    stamina = addStat(stamina, 15);
@@ -185,8 +183,6 @@ public class ChooseYourOwnAdventure {
                    }
                    int count = 1;
                }else if (miles > 40){
-                   int count = 1;///////////////////////////////////////////////
-                   while (count < 20){///////////////////////////////////////////////////////////
                    int randomBronze = (int) (Math.random() * 65);
                    int randomSilver = (int) (Math.random() * 65) + 1;
                    System.out.println("Bridge");
@@ -217,7 +213,6 @@ public class ChooseYourOwnAdventure {
                        
                        
                    }
-                       }//////////////////////////////////////////////////////////////////////////
                }
                // have all the walking paths meet up here possibly
                
