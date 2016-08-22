@@ -1,4 +1,3 @@
-import java.util.Scanner;
 import javax.swing.JOptionPane;
 
 
@@ -147,8 +146,8 @@ public class ChooseYourOwnAdventure {
                JOptionPane.showMessageDialog(null, "You walk for " + miles + " miles before you see any signs of life.");
                System.out.println("Walk");
                if (miles > 20){
-                   hp = subtractStat(hp, 15);
-                   stamina = addStat(stamina, 15);
+                   stats[0] = subtractStat(stats[0], 15);
+                   stats[1] = addStat(stats[1], 15);
                }
                if (miles <= 20){
                    System.out.println("Cave");
@@ -164,7 +163,7 @@ public class ChooseYourOwnAdventure {
                        miles = 40;
                        }
                    
-               }else if (miles <= 40 && miles > 20){
+               }if (miles <= 40 && miles > 20){
                    System.out.println("Forest");
                    yesNo("Forest", "As you continue down the road you notice a \ndark forest looming in the distance, do " + ""
                            + "you explore it?", "of course!", "no thanks....");
@@ -181,7 +180,7 @@ public class ChooseYourOwnAdventure {
                        
                        
                    }
-               }else if (miles > 40){
+               }if (miles > 40){
                    int randomBronze = (int) (Math.random() * 65);
                    int randomSilver = (int) (Math.random() * 65) + 1;
                    System.out.println("Bridge");
@@ -220,7 +219,7 @@ public class ChooseYourOwnAdventure {
            }else if (3 < random && random <= 6 ){
                JOptionPane.showMessageDialog(null, "Somehow you managed to hitch a ride on a wagon to a nearby village.");
                System.out.println("Wagon ride");
-               luck = addStat(luck, 5);
+               stats[4] = addStat(stats[4], 5);
                random = (int) (Math.random() * 3) + 1;
                String sizeOne = "";
                String sizeTwo = "";
@@ -409,11 +408,10 @@ public class ChooseYourOwnAdventure {
         int experience = stats[6];
         int requiredXp = stats[7];
         int level = stats[8];
-        double plusRequiredXp = 0;
         stats[6] += plusXP;
         while (stats[6] > stats[7]){
             stats[6] -= stats[7];
-            plusRequiredXp = (level * .1);
+            double plusRequiredXp = (level * .1);
             plusRequiredXp = (plusRequiredXp * stats[7]);
             stats[7] = (int)(stats[7] + plusRequiredXp);
             stats[8] += 1;
@@ -454,7 +452,6 @@ public class ChooseYourOwnAdventure {
                     stats[2] += 3;
                     stats[3] += 3;
                     stats[4] += 3;
-                    stats[5] += 3;
                     break;
             }
             showStats(stats, statsOld);
