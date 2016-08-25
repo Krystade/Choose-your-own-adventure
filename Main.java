@@ -14,6 +14,10 @@ public class ChooseYourOwnAdventure {
         String subTitle;
         String[] choices;
         String choice = "";
+        ///////////////////////////////////////////////////////////////////////////////////////////////
+        //Make the death loop!
+        boolean dead = false;
+        //////////////////////////////////////////////////////////////////////////////////////////////
         //Have the user open a treasure chest and recieve their class/weapon/skill
         //This determines their base stats 
         JOptionPane.showMessageDialog(null,"You stumble upon a strange looking treasure chest. \nOpen the chest to begin you journey.");
@@ -124,6 +128,7 @@ public class ChooseYourOwnAdventure {
                     stats[9] += 5;
                     break;
             }
+            System.out.println(skill);
             //Display stats
             showStatsOriginal(stats);
         addXp(stats, 220);
@@ -153,13 +158,26 @@ public class ChooseYourOwnAdventure {
                    System.out.println("Cave");
                    yesNo("Cave", "While walking you come across a spooky looking cave, \nwill you explore it?", "uhhh, sure.", "of course not!");
                    if(optionDialog == 0){
-                       
-                       
-                       
-                       
-                       
-                       
-                   }else if (optionDialog == 1){
+                       int optionDialog2 = yesNo("choice","Will you begin exploring to the left of the cave, or the right?", "Left", "right");
+                       if(optionDialog2 == 0){
+                           JOptionPane.showMessageDialog(null, "You are attacked by a vicious swarm blood-thirsty bats!");
+                           boolean check = combatTest(stats, 60);
+                           boolean check2 = combatTest(stats, 60);
+                           if (check == true || check2 == true){
+                               addXp(stats,70);
+                           }else{
+                               JOptionPane.showMessageDialog(null, "You Died!");
+                               dead = true;
+                           }
+                           
+                           
+                       }else if(optionDialog2 == 1){
+                           
+                           
+                           
+                           
+                       }
+                       }else if (optionDialog == 1){
                        miles = 40;
                        }
                    
@@ -201,9 +219,15 @@ public class ChooseYourOwnAdventure {
                        
                        
                    }if (optionDialog == 0){ //user chose to fight
-                       boolean combatTest = combatTest(stats, 40);
-                       
-                       System.out.println(combatTest);
+                       boolean bridgeTest = combatTest(stats, 40);
+                       if (bridgeTest == true){
+                           addXp(stats, 50);
+                           
+                       }else if (bridgeTest == false){
+                           JOptionPane.showMessageDialog(null, "You Died!");
+                           dead = true;
+                       }
+                       System.out.println(bridgeTest);
                        
                        
                        
@@ -438,11 +462,11 @@ public class ChooseYourOwnAdventure {
                     
                     break;
                 case 3:
-                    stats[0] += 1;
+                    stats[0] += 2;
                     stats[4] += 6;
                     break;
                 case 4:
-                    stats[0] += 1;
+                    stats[0] += 2;
                     stats[4] += 5;
                     stats[5] += 7;
                     break;
