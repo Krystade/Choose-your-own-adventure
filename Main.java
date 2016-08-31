@@ -156,17 +156,18 @@ public class ChooseYourOwnAdventure {
                                int optionDialog2 = yesNo("choice","Will you begin exploring to the left of the cave, or the right?", "Left", "right");
                                if(optionDialog2 == 0){
                                    JOptionPane.showMessageDialog(null, "You are attacked by a vicious swarm blood-thirsty bats!");
-                                   boolean check = combatTest(stats, 60);
-                                   boolean check2 = combatTest(stats, 60);
-                                   if (check == true || check2 == true){
-                                       addXp(stats,70);
+                                   boolean check = combatTest(stats, 100);
+                                   if (check == true){
+                                       addXp(stats,120);
                                    }else{
                                        JOptionPane.showMessageDialog(null, "You Died!");
                                        dead = true;
                                        break;
                                    }
-
-
+                                   
+                                   
+                                   
+                                   
                                }else if(optionDialog2 == 1){
 
 
@@ -217,7 +218,7 @@ public class ChooseYourOwnAdventure {
                            }if (optionDialog == 0){ //user chose to fight
                                 boolean bridgeTest = combatTest(stats, 40);
                                 if (bridgeTest == true){
-                                   addXp(stats, 50);
+                                   addXp(stats, 150);
 
                                 }else if (bridgeTest == false){
                                    JOptionPane.showMessageDialog(null, "You Died!");
@@ -225,12 +226,6 @@ public class ChooseYourOwnAdventure {
                                    break;
                                 }
                                 System.out.println("bridgeTest = " + bridgeTest);
-
-
-
-
-
-
                            }
                        }
                        // have all the walking paths meet up here possibly
