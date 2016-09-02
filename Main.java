@@ -162,7 +162,10 @@ public class ChooseYourOwnAdventure {
                                    }else{
                                        JOptionPane.showMessageDialog(null, "You Died!");
                                        dead = true;
-                                       break;
+                                       int yn = yesNo("End", "Would you like to play again?", "Yes", "No");
+                                        if (yn == 1){
+                                            play = false;
+                                        }
                                    }
                                    
                                    
@@ -223,7 +226,10 @@ public class ChooseYourOwnAdventure {
                                 }else if (bridgeTest == false){
                                    JOptionPane.showMessageDialog(null, "You Died!");
                                    dead = true;
-                                   break;
+                                   int yn = yesNo("End", "Would you like to play again?", "Yes", "No");
+                                    if (yn == 1){
+                                        play = false;
+                                    }
                                 }
                                 System.out.println("bridgeTest = " + bridgeTest);
                            }
@@ -312,18 +318,6 @@ public class ChooseYourOwnAdventure {
                                 }
                             }
                         }
-            /*
-                System.out.println("Dead");
-                dead = true;
-                //you have died
-                //show stats, coins, level?
-                //give score?
-            }
-            playAgain = false;
-            //Would you like to play again?
-            //yes = do nothing
-            //no = set playAgain = false
-    }       */
             // optionDialog = yesNo("title", "subTitle", "option1", "option2");
             static int yesNo(String title, String subTitle, String choice1, String choice2) {
             Object[] options = {choice1, choice2};
