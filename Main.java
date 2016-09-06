@@ -129,11 +129,11 @@ public class ChooseYourOwnAdventure {
                 addXp(stats, 220);
 
                //Prompt user to go left or right
-               int optionDialog = yesNo("choice","Will your journey begin going left, or going right?", "Left", "right");
+               int beginLeftRight = yesNo("choice","Will your journey begin going left, or going right?", "Left", "right");
                //Generate random number from 1 - 10 and luckDraw
                int random =(int) (Math.random() * 10) + 1;
                //Branch if user chooses left
-               if(optionDialog == 0){
+               if(beginLeftRight == 0){
                    System.out.println("Left");
                    if(random <= 3){
                        int miles = 0;
@@ -151,12 +151,12 @@ public class ChooseYourOwnAdventure {
                        }
                        if (miles <= 20){
                            System.out.println("Cave");
-                           yesNo("Cave", "While walking you come across a spooky looking cave, \nwill you explore it?", "uhhh, sure.", "of course not!");
-                           if(optionDialog == 0){
-                               int optionDialog2 = yesNo("choice","Will you begin exploring to the left of the cave, or the right?", "Left", "right");
-                               if(optionDialog2 == 0){
+                           int caveYN = yesNo("Cave", "While walking you come across a spooky looking cave, \nwill you explore it?", "uhhh, sure.", "of course not!");
+                           if(caveYN == 0){
+                               int caveLeftRight = yesNo("choice","Will you begin exploring to the left of the cave, or the right?", "Left", "right");
+                               if(caveLeftRight == 0){
                                    JOptionPane.showMessageDialog(null, "You are attacked by a vicious swarm blood-thirsty bats!");
-                                   boolean check = combatTest(stats, 100);
+                                   boolean check = combatTest(stats, 80);
                                    if (check == true){
                                        addXp(stats,120);
                                    }else{
@@ -171,27 +171,27 @@ public class ChooseYourOwnAdventure {
                                    
                                    
                                    
-                               }else if(optionDialog2 == 1){
+                               }else if(caveLeftRight == 1){
 
 
 
 
                                }
-                               }else if (optionDialog == 1){
+                               }else if (caveYN == 1){
                                miles = 40;
                                }
 
                        }if (miles <= 40 && miles > 20){
                            System.out.println("Forest");
-                           yesNo("Forest", "As you continue down the road you notice a \ndark forest looming in the distance, do " + ""
+                           int forestYN = yesNo("Forest", "As you continue down the road you notice a \ndark forest looming in the distance, do " + ""
                                    + "you explore it?", "of course!", "no thanks....");
-                           if(optionDialog == 0){
+                           if(forestYN == 0){
 
 
 
 
 
-                           }else if (optionDialog == 1){
+                           }else if (forestYN == 1){
 
 
 
@@ -199,26 +199,27 @@ public class ChooseYourOwnAdventure {
 
                            }
                        }if (miles > 40){
+                           int bridgeDialog = 0;
                            int randomBronze = (int) (Math.random() * 65);
                            int randomSilver = (int) (Math.random() * 65) + 1;
                            System.out.println("Bridge");
                            if (randomBronze == 0){
-                                optionDialog = yesNo("", "You come across a bridge guarded by two extremely threatening bandits" + 
+                                bridgeDialog = yesNo("", "You come across a bridge guarded by two extremely threatening bandits" + 
                                    ", \nthey demand " + randomSilver + " silver coins!", "Fight!", "pay up.");   //Pompt the user to choose to fight the bandits or pay them
                            }else if(randomBronze != 0){
-                                optionDialog = yesNo("", "You come across a bridge guarded by two extremely threatening bandits" + 
+                                bridgeDialog = yesNo("", "You come across a bridge guarded by two extremely threatening bandits" + 
                                    ", \nthey demand " + randomSilver + " silver and " + randomBronze + " bronze coins!", "Fight!", "pay up.");   //Pompt the user to choose to fight the bandits or pay them
                            }
-                           if(optionDialog == 1){  //user chose to pay up
+                           if(bridgeDialog == 1){  //user chose to pay up
                                 int[] originalWallet = wallet; //used to check if subtractCoins() later on was successful
                                 subtractCoins(wallet, 0, randomSilver, randomBronze );
                                     if (originalWallet == wallet){
-                                        optionDialog = 0;
+                                        bridgeDialog = 0;
                                         JOptionPane.showMessageDialog(null, "You're going to have to fight!"); //if user doesn't have enough coins they are forced to fight
                                     }
 
 
-                           }if (optionDialog == 0){ //user chose to fight
+                           }if (bridgeDialog == 0){ //user chose to fight
                                 boolean bridgeTest = combatTest(stats, 40);
                                 if (bridgeTest == true){
                                    addXp(stats, 150);
@@ -263,30 +264,33 @@ public class ChooseYourOwnAdventure {
                                sizeThree = "small";
                                break;
                        }
-                       optionDialog = yesNo("Wagon Ride", "You arrive at a " + sizeOne + 
+                       int wagonOneDialog = yesNo("Wagon Ride", "You arrive at a " + sizeOne + 
                                " village surrounded by a scorching desert. Do you stop to investigate or continue?", "stop", "continue");
-                           if(optionDialog == 0){
-                               System.out.println("Stop 1");
-
-
-
-
-                           }else if (optionDialog == 1){
-                                System.out.println("Continue 1");
-                                optionDialog = yesNo("Wagon Ride", "You arrive at a " + sizeTwo + 
+                           if(wagonOneDialog == 0){
+                               System.out.println("Wagon Stop 1");
+                               int villageOneDialog = yesNo(sizeOne + " village", "dialog", "choice one", "choice two");
+                               
+                               
+                               
+                           }else if (wagonOneDialog == 1){
+                                System.out.println("Wagon Continue 1");
+                                int wagonTwoDialog = yesNo("Wagon Ride", "You arrive at a " + sizeTwo + 
                                 " village enveloped by a dense forest. Do you stop to investigate or continue?", "stop", "continue");
-                                if(optionDialog == 0){
-                                    System.out.println("Stop 2");
-
-
-
-
-                           }else if (optionDialog == 1){
-                                System.out.println("Continue 2");
+                                if(wagonTwoDialog == 0){
+                                    System.out.println("Wagon Stop 2");
+                                    int villageTwoDialog = yesNo(sizeTwo + " village", "dialog", "choice one", "choice two");
+                                    
+                                    
+                                    
+                           }else if (wagonTwoDialog == 1){
+                                System.out.println("Wagon Continue 2");
                                 JOptionPane.showMessageDialog(null,"You arrive at a " + sizeThree + 
                                 " village with un-ending plains on evey side. The wagon will take you no further.");
-                                if(optionDialog == 0){
-                                    System.out.println("Final Stop");   
+                                if(wagonTwoDialog == 0){
+                                    System.out.println("Wagon Final Stop");
+                                    int villageThreeDialog = yesNo(sizeThree + " village", "dialog", "choice one", "choice two");
+                                    
+                                    
                                     }    
                                 }    
                             }
@@ -303,7 +307,7 @@ public class ChooseYourOwnAdventure {
 
 
                         //Branch if user chooses right    
-                                    }else if (optionDialog == 1){
+                                    }else if (beginLeftRight == 1){
                                         System.out.println("Right");
 
 
