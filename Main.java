@@ -159,6 +159,7 @@ public class ChooseYourOwnAdventure {
                                    boolean check = combatTest(stats, 80);
                                    if (check == true){
                                        addXp(stats,120);
+                                       System.out.println("Killed bats");
                                    }else{
                                        JOptionPane.showMessageDialog(null, "You Died!");
                                        dead = true;
@@ -167,10 +168,14 @@ public class ChooseYourOwnAdventure {
                                             play = false;
                                         }
                                    }
-                                   
-                                   
-                                   
-                                   
+                                   int batCheck = luckTest(stats,50);
+                                   if(batCheck == true){
+                                       int random = (int) (Math.random() * 2);
+                                       // if random = 0 bronze coins else silver coins
+                                       JOptionPane.showMessageDialog(null,"You found the nesting place of the bats, \nYou got " +  + " coins  in the nest!";
+                                }else{
+                                    JOptionPane.showMessageDialog(null,"You found the nesting place of the bats, \nYou got nothing!";
+                                }
                                }else if(caveLeftRight == 1){
 
 
@@ -192,11 +197,7 @@ public class ChooseYourOwnAdventure {
 
 
                            }else if (forestYN == 1){
-
-
-
-
-
+                               miles = 41;
                            }
                        }if (miles > 40){
                            int bridgeDialog = 0;
