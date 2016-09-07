@@ -127,6 +127,12 @@ public class ChooseYourOwnAdventure {
                     System.out.println(skill);
                     showStatsOriginal(stats);       //Display stats
                     
+                for (int i = 0;i < 10; i++){
+                    System.out.println("veryLow = " + combatTest(stats,"veryLow"));
+                }
+                for (int i = 0;i < 10; i++){
+                    System.out.println("veryHard = " + combatTest(stats,"veryHard"));
+                }
                int beginLeftRight = yesNo("choice","Will your journey begin going left, or going right?", "Left", "right");    //Prompt user to go left or right
                int random =(int) (Math.random() * 10) + 1;                                                                     //Generate random number from 1 - 10 for random path
                //Branch if user chooses left
