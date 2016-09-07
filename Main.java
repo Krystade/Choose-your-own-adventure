@@ -137,7 +137,7 @@ public class ChooseYourOwnAdventure {
                    System.out.println("Left");
                    if(random <= 3){
                        int miles = 0;
-                       boolean luckCheck = luckTest(luck, 65); //perform a luckCheck to determine the max for miles walked
+                       boolean luckCheck = luckTest(stats, 65); //perform a luckCheck to determine the max for miles walked
                        if (luckCheck == true){
                             miles =(int) ((Math.random() * 29) + 1); //if luckCheck is passed they will walk between 1 and 30 miles
                        }else if(luckCheck == false){
@@ -166,15 +166,26 @@ public class ChooseYourOwnAdventure {
                                        int yn = yesNo("End", "Would you like to play again?", "Yes", "No");
                                         if (yn == 1){
                                             play = false;
+                                            break;
+                                        }else{
+                                            continue;
                                         }
                                    }
-                                   int batCheck = luckTest(stats,50);
+                                   boolean batCheck = luckTest(stats,50);
                                    if(batCheck == true){
-                                       int random = (int) (Math.random() * 2);
-                                       // if random = 0 bronze coins else silver coins
-                                       JOptionPane.showMessageDialog(null,"You found the nesting place of the bats, \nYou got " +  + " coins  in the nest!";
+                                       int coinType = (int) (1 + (Math.random() * 2));
+                                       int randomNum = (int) (1 + (Math.random() * 20));
+                                       if (coinType == 0){
+                                       JOptionPane.showMessageDialog(null,"You found the nesting place of the bats, \nYou got " + randomNum + " bronze coins  in the nest!");
+                                       addCoins(wallet, 0, 0, randomNum);
+                                       showCoins(wallet);
+                                    }else if (coinType == 1){
+                                        JOptionPane.showMessageDialog(null,"You found the nesting place of the bats, \nYou got " + randomNum + " silver coins  in the nest!");
+                                        addCoins(wallet, 0, randomNum, 0);
+                                        showCoins(wallet);
+                                    }
                                 }else{
-                                    JOptionPane.showMessageDialog(null,"You found the nesting place of the bats, \nYou got nothing!";
+                                    JOptionPane.showMessageDialog(null,"You found the nesting place of the bats, \nYou got nothing!");
                                 }
                                }else if(caveLeftRight == 1){
 
@@ -223,14 +234,19 @@ public class ChooseYourOwnAdventure {
                            }if (bridgeDialog == 0){ //user chose to fight
                                 boolean bridgeTest = combatTest(stats, 40);
                                 if (bridgeTest == true){
+                                    System.out.println("bandits killed");
                                    addXp(stats, 150);
-
                                 }else if (bridgeTest == false){
+                                    System.out.println("Dead");
                                    JOptionPane.showMessageDialog(null, "You Died!");
                                    dead = true;
                                    int yn = yesNo("End", "Would you like to play again?", "Yes", "No");
                                     if (yn == 1){
+                                        System.out.println("Play again = false");
                                         play = false;
+                                        break;
+                                    }else{
+                                        continue;
                                     }
                                 }
                                 System.out.println("bridgeTest = " + bridgeTest);
@@ -244,22 +260,22 @@ public class ChooseYourOwnAdventure {
                        JOptionPane.showMessageDialog(null, "Somehow you managed to hitch a ride on a wagon to a nearby village.");
                        System.out.println("Wagon ride");
                        stats[4] = addStat(stats[4], 5);
-                       random = (int) (Math.random() * 3) + 1;
+                       random = (int) (Math.random() * 3);
                        String sizeOne = "";
                        String sizeTwo = "";
                        String sizeThree = "";
                        switch (random){
-                           case 1:
+                           case 0:
                                sizeOne = "small";
                                sizeTwo = "medium";
                                sizeThree = "large";
                                break;
-                            case 2:
+                            case 1:
                                sizeOne = "large";
                                sizeTwo = "small";
                                sizeThree = "medium";
                                break;
-                            case 3:
+                            case 2:
                                sizeOne = "medium";
                                sizeTwo = "large";
                                sizeThree = "small";
@@ -269,7 +285,7 @@ public class ChooseYourOwnAdventure {
                                " village surrounded by a scorching desert. Do you stop to investigate or continue?", "stop", "continue");
                            if(wagonOneDialog == 0){
                                System.out.println("Wagon Stop 1");
-                               int villageOneDialog = yesNo(sizeOne + " village", "dialog", "choice one", "choice two");
+                               int villageOneDialog = yesNo(sizeOne + " village", "You observe a wake of vultures circling in the distance, \ndo you investigate?", "Enter the village", "Go towards vultures");
                                
                                
                                
@@ -279,7 +295,7 @@ public class ChooseYourOwnAdventure {
                                 " village enveloped by a dense forest. Do you stop to investigate or continue?", "stop", "continue");
                                 if(wagonTwoDialog == 0){
                                     System.out.println("Wagon Stop 2");
-                                    int villageTwoDialog = yesNo(sizeTwo + " village", "dialog", "choice one", "choice two");
+                                    int villageTwoDialog = yesNo(sizeTwo + " village", "Before entering the village you hear a strange noise coming from the forest, \ndo you investigate?", "Enter the village", "Investigate noise");
                                     
                                     
                                     
@@ -289,7 +305,7 @@ public class ChooseYourOwnAdventure {
                                 " village with un-ending plains on evey side. The wagon will take you no further.");
                                 if(wagonTwoDialog == 0){
                                     System.out.println("Wagon Final Stop");
-                                    int villageThreeDialog = yesNo(sizeThree + " village", "dialog", "choice one", "choice two");
+                                    int villageThreeDialog = yesNo(sizeThree + " village", "You notice an enormous castle looming in the distance, \ndo you investigate?", "Enter the village", "Walk to castle");
                                     
                                     
                                     }    
@@ -300,9 +316,18 @@ public class ChooseYourOwnAdventure {
 
                        // have all the wagon paths meet up here possibly
                             }else if(random > 6){
-                                JOptionPane.showMessageDialog(null, "Two hooded figures approach you without a word.");
-
+                                random = (int) (1 + (Math.random() * 5));
+                                JOptionPane.showMessageDialog(null, random + " hooded figures approach you without a word.\nYou are killed on the spot....");
                                 System.out.println("Hooded figures");
+                                dead = true;
+                                int yn = yesNo("End", "Would you like to play again?", "Yes", "No");
+                                if (yn == 1){
+                                    System.out.println("Play again = false");
+                                    play = false;
+                                    break;
+                                }else{
+                                    continue;
+                                }
                             }
                             // have all the Hooded paths meet up here possibly
 
@@ -316,10 +341,6 @@ public class ChooseYourOwnAdventure {
 
                                     }
 
-                                }
-                                int yn = yesNo("End", "Would you like to play again?", "Yes", "No");
-                                if (yn == 1){
-                                    play = false;
                                 }
                             }
                         }
@@ -393,6 +414,7 @@ public class ChooseYourOwnAdventure {
                 }
             return wallet;
             }
+            ///////////////////////////////////////////////////////////////////////////make a speed test to allow the player to escape the enemy ///////////////////////////////////////////////////////////////////
             //used to calculate whether or not an attack is successful
             //combatTest(stats, 70) risk level of 70 is successful sometimes risk level of 40 is successful often
             static boolean combatTest(int[] stats, double risk){
@@ -413,10 +435,11 @@ public class ChooseYourOwnAdventure {
                 return combatTest;
             }
         //chance of success between 0 and 100
-        //if(luckChance(luck, 60) == true){ System.out.println("Passed!");  
+        //if(luckChance(stats, 60) == true){ System.out.println("Passed!");  
         //will return true 60% of the time with 100 luck and 60 risk, 78% of the time with 130 luck
-            static boolean luckTest(double luck, double risk){
+            static boolean luckTest(int[] stats, double risk){
             boolean trueTest = true;               // default it to false
+            int luck = stats[4];
             double luckPercent = luck * .01;        //change luck to a percent ex. 130 to 1.3 or 30%
             risk = risk * luckPercent;              //generate the highest number for a success
             double random =(Math.random() * 100);   //generate a random number between 0 and 100
