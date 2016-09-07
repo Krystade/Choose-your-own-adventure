@@ -156,7 +156,7 @@ public class ChooseYourOwnAdventure {
                                int caveLeftRight = yesNo("choice","Will you begin exploring to the left of the cave, or the right?", "Left", "right");
                                if(caveLeftRight == 0){
                                    JOptionPane.showMessageDialog(null, "You are attacked by a vicious swarm blood-thirsty bats!");
-                                   boolean check = combatTest(stats, 80);
+                                   boolean check = combatTest(stats, "low");
                                    if (check == true){
                                        addXp(stats,120);
                                        System.out.println("Killed bats");
@@ -232,7 +232,7 @@ public class ChooseYourOwnAdventure {
 
 
                            }if (bridgeDialog == 0){ //user chose to fight
-                                boolean bridgeTest = combatTest(stats, 40);
+                                boolean bridgeTest = combatTest(stats, "medium");
                                 if (bridgeTest == true){
                                     System.out.println("bandits killed");
                                    addXp(stats, 150);
@@ -416,10 +416,38 @@ public class ChooseYourOwnAdventure {
             }
             ///////////////////////////////////////////////////////////////////////////make a speed test to allow the player to escape the enemy ///////////////////////////////////////////////////////////////////
             //used to calculate whether or not an attack is successful
-            //combatTest(stats, 70) risk level of 70 is successful sometimes risk level of 40 is successful often
-            static boolean combatTest(int[] stats, double risk){
-                boolean combatTest = true;              // default it to false
+            //combatTest(stats, 70) risk level of Verylow = 5% failure / low = 20% failure / medium = 40% failure / hard = 70% failure / extreme = 90% failure 
+            //^^ for default stats ^^ 
+                        static boolean combatTest(int[] stats, String risk){
+                boolean combatTest = true;              // default it to true / pass
                 double random = Math.random() * 100;    // generate a random number between 1 to 100
+                int danger = 0;                         // create variable danger, default it to 0
+                switch(risk){
+                    case "veryLow":
+                        danger = 5;
+                    case "low":
+                        danger = 20;
+                    case "medium":
+                        danger = 40;
+                    case "hard":
+                        danger = 70;
+                    case "veryHard":
+                        danger = 90;
+                }
+                danger += (.250 * (stats[0] - 100));
+                danger += (.500 * (stats[1] - 100));
+                danger += (.125 * (stats[2] - 100));
+                danger += (.125 * (stats[3] - 100));
+                danger += (.500 * (stats[4] - 100));
+                danger += (.250 * (stats[5]));
+                if ( random <= danger){                     // if the random number is less than or equal to the danger the test is failed
+                    combatTest = false;
+                    System.out.println("Dead");
+                }else if (random > danger){
+                    System.out.println("combatTest passed");
+                }
+                return combatTest;
+                /*
                 double luck = stats[5] * .01;
                 double attack = .05 * stats[1] * luck;
                 double hp = .025 * stats[0] * luck;
@@ -427,13 +455,10 @@ public class ChooseYourOwnAdventure {
                 double stamina = .0125 * stats[2] * luck;
                 double speed = .0125 * stats[3] * luck;
                 risk -= attack - hp - magic - stamina - speed;
-                if (risk > random){                     // if the random number is larger than the risk the test is passed
-                    combatTest = false;
-                }else if (risk < random){
-                    System.out.println("Dead");
-                }
-                return combatTest;
+                */
             }
+            
+            
         //chance of success between 0 and 100
         //if(luckChance(stats, 60) == true){ System.out.println("Passed!");  
         //will return true 60% of the time with 100 luck and 60 risk, 78% of the time with 130 luck
