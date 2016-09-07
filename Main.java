@@ -74,6 +74,7 @@ public class ChooseYourOwnAdventure {
                         break;
                         }
                     }
+                    System.out.println("Gold: " + wallet[0] + "\nSilver: " + wallet[1] + "\nBronze: " + wallet[2]);
                     //Define Base Stats
                     int hp = 100;           // stats[0]
                     int stamina = 100;      // stats[1]
@@ -124,14 +125,10 @@ public class ChooseYourOwnAdventure {
                             break;
                     }
                     System.out.println(skill);
-                    //Display stats
-                    showStatsOriginal(stats);
-                addXp(stats, 220);
-
-               //Prompt user to go left or right
-               int beginLeftRight = yesNo("choice","Will your journey begin going left, or going right?", "Left", "right");
-               //Generate random number from 1 - 10 and luckDraw
-               int random =(int) (Math.random() * 10) + 1;
+                    showStatsOriginal(stats);       //Display stats
+                    
+               int beginLeftRight = yesNo("choice","Will your journey begin going left, or going right?", "Left", "right");    //Prompt user to go left or right
+               int random =(int) (Math.random() * 10) + 1;                                                                     //Generate random number from 1 - 10 for random path
                //Branch if user chooses left
                if(beginLeftRight == 0){
                    System.out.println("Left");
@@ -302,7 +299,7 @@ public class ChooseYourOwnAdventure {
                            }else if (wagonTwoDialog == 1){
                                 System.out.println("Wagon Continue 2");
                                 JOptionPane.showMessageDialog(null,"You arrive at a " + sizeThree + 
-                                " village with un-ending plains on evey side. The wagon will take you no further.");
+                                " village with un-ending plains on evey side. \nThe wagon will take you no further.");
                                 if(wagonTwoDialog == 0){
                                     System.out.println("Wagon Final Stop");
                                     int villageThreeDialog = yesNo(sizeThree + " village", "You notice an enormous castle looming in the distance, \ndo you investigate?", "Enter the village", "Walk to castle");
@@ -331,9 +328,8 @@ public class ChooseYourOwnAdventure {
                             }
                             // have all the Hooded paths meet up here possibly
 
-
-                        //Branch if user chooses right    
-                                    }else if (beginLeftRight == 1){
+                            
+                                    }else if (beginLeftRight == 1){             //Branch if user chooses right
                                         System.out.println("Right");
 
 
