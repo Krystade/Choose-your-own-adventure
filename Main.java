@@ -61,7 +61,7 @@ public class ChooseYourOwnAdventure {
                         break;
                         }
                         case 5: choice = "none";
-                        addCoins(wallet, 0, (int)(giveCoins * 1.5), 0);
+                        addCoins(wallet, 0, (int)(giveCoins * 1.25), 0);
                         if (wallet[0] == 0){ //Check if the user gets any gold or only silver
                             int coins = wallet[1];
                         JOptionPane.showMessageDialog(null,"You have recieved " + coins + " silver coins from the chest!");
