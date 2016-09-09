@@ -129,7 +129,9 @@ public class ChooseYourOwnAdventure {
                     
                 
                int beginLeftRight = yesNo("choice","Will your journey begin going left, or going right?", "Left", "right");    //Prompt user to go left or right
-               int random =(int) (Math.random() * 10) + 1;                                                                     //Generate random number from 1 - 10 for random path
+               int random =(int) (Math.random() * 10) + 1; 
+               random = 1;////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+               //Generate random number from 1 - 10 for random path
                //Branch if user chooses left
                if(beginLeftRight == 0){
                    System.out.println("\nLeft");
@@ -185,12 +187,19 @@ public class ChooseYourOwnAdventure {
                                 }else{
                                     JOptionPane.showMessageDialog(null,"You found the nesting place of the bats, \nYou got nothing!");
                                 }
+                                int mineshaft = yesNo("Mineshaft","You arrive at a vertical mineshaft. \nWill you climb down it or exit the cave?","Climb Down","Leave");
+                                if(mineshaft == 0){
+                                    
+                                    
+                                }else if (mineshaft == 1){
+                                    caveYN = 1;
+                                }
                                }else if(caveLeftRight == 1){
                                    JOptionPane.showMessageDialog(null, "You enter an enormous, dimly lit cavern.");
                                    int cavern = yesNo("Cavern", "The floor is covered in  fluorescent flowers, lighting the \nentire space, " + 
                                             "including the bright shimmering pool of water. ", "Pick the flowers.", "go for a swim.");
                                    if(cavern == 0){
-                                       
+                                       JOptionPane.showMessageDialog("");
                                    }else if (cavern == 1){
                                        
                                    }
@@ -199,7 +208,7 @@ public class ChooseYourOwnAdventure {
 
 
                                }
-                               }else if (caveYN == 1){ //If the user doesn't want to enter the cave change the number of miles walked
+                               }if (caveYN == 1){ //If the user doesn't want to enter the cave change the number of miles walked
                                miles = 40;
                                }
 
@@ -219,7 +228,7 @@ public class ChooseYourOwnAdventure {
                        }if (miles > 40){
                            int bridgeDialog = 0;
                            int randomBronze = (int) (Math.random() * 65);
-                           int randomSilver = (int) (Math.random() * 65) + 1;
+                           int randomSilver = (int) (Math.random() * 35) + 1;
                            System.out.println("Bridge");
                            if (randomBronze == 0){
                                 bridgeDialog = yesNo("", "You come across a bridge guarded by two extremely threatening bandits" + 
