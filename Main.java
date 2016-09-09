@@ -17,7 +17,7 @@ public class ChooseYourOwnAdventure {
             //This determines their base stats 
                 JOptionPane.showMessageDialog(null,"You stumble upon a strange looking treasure chest. \nOpen the chest to begin you journey.");
                 int randomChoice = (int) (Math.random() * 5) + 1;
-                int giveCoins = (int) (Math.random() * 30) + 5;
+                int giveCoins = (int) (Math.random() * 30) + 12;
                 //Set array for coins [0] = gold, [1] = silver, [2] = bronze
                 int[] wallet = {0, 0, 0};
                     switch (randomChoice) {
@@ -61,7 +61,7 @@ public class ChooseYourOwnAdventure {
                         break;
                         }
                         case 5: choice = "none";
-                        addCoins(wallet, 0, giveCoins, 0);
+                        addCoins(wallet, 0, (int)(giveCoins * 1.5), 0);
                         if (wallet[0] == 0){ //Check if the user gets any gold or only silver
                             int coins = wallet[1];
                         JOptionPane.showMessageDialog(null,"You have recieved " + coins + " silver coins from the chest!");
@@ -127,17 +127,12 @@ public class ChooseYourOwnAdventure {
                     System.out.println(skill);
                     showStatsOriginal(stats);       //Display stats
                     
-                for (int i = 0;i < 10; i++){
-                    System.out.println("veryLow = " + combatTest(stats,"veryLow"));
-                }
-                for (int i = 0;i < 10; i++){
-                    System.out.println("veryHard = " + combatTest(stats,"veryHard"));
-                }
+                
                int beginLeftRight = yesNo("choice","Will your journey begin going left, or going right?", "Left", "right");    //Prompt user to go left or right
                int random =(int) (Math.random() * 10) + 1;                                                                     //Generate random number from 1 - 10 for random path
                //Branch if user chooses left
                if(beginLeftRight == 0){
-                   System.out.println("Left");
+                   System.out.println("\nLeft");
                    if(random <= 3){
                        int miles = 0;
                        boolean luckCheck = luckTest(stats, 65); //perform a luckCheck to determine the max for miles walked
@@ -191,12 +186,20 @@ public class ChooseYourOwnAdventure {
                                     JOptionPane.showMessageDialog(null,"You found the nesting place of the bats, \nYou got nothing!");
                                 }
                                }else if(caveLeftRight == 1){
+                                   JOptionPane.showMessageDialog(null, "You enter an enormous, dimly lit cavern.");
+                                   int cavern = yesNo("Cavern", "The floor is covered in  fluorescent flowers, lighting the \nentire space, " + 
+                                            "including the bright shimmering pool of water. ", "Pick the flowers.", "go for a swim.");
+                                   if(cavern == 0){
+                                       
+                                   }else if (cavern == 1){
+                                       
+                                   }
 
 
 
 
                                }
-                               }else if (caveYN == 1){
+                               }else if (caveYN == 1){ //If the user doesn't want to enter the cave change the number of miles walked
                                miles = 40;
                                }
 
@@ -319,7 +322,7 @@ public class ChooseYourOwnAdventure {
 
                        // have all the wagon paths meet up here possibly
                             }else if(random > 6){
-                                random = (int) (1 + (Math.random() * 5));
+                                random = (int) (2 + (Math.random() * 5));
                                 JOptionPane.showMessageDialog(null, random + " hooded figures approach you without a word.\nYou are killed on the spot....");
                                 System.out.println("Hooded figures");
                                 dead = true;
@@ -329,14 +332,13 @@ public class ChooseYourOwnAdventure {
                                     play = false;
                                     break;
                                 }else{
-                                    continue;
                                 }
                             }
                             // have all the Hooded paths meet up here possibly
 
                             
                                     }else if (beginLeftRight == 1){             //Branch if user chooses right
-                                        System.out.println("Right");
+                                        System.out.println("\nRight");
 
 
 
@@ -418,24 +420,30 @@ public class ChooseYourOwnAdventure {
             }
             ///////////////////////////////////////////////////////////////////////////make a speed test to allow the player to escape the enemy ///////////////////////////////////////////////////////////////////
             //used to calculate whether or not an attack is successful
-            //combatTest(stats, 70) risk level of Verylow = 5% failure / low = 20% failure / medium = 40% failure / hard = 70% failure / extreme = 90% failure 
+            //combatTest(stats, "low") risk level of Verylow = 5% failure / low = 20% failure / medium = 40% failure / hard = 70% failure / extreme = 90% failure 
             //^^ for default stats ^^ 
                         static boolean combatTest(int[] stats, String risk){
                 boolean combatTest = true;              // default it to true / pass
                 double random = Math.random() * 100;    // generate a random number between 1 to 100
                 int danger = 0;                         // create variable danger, default it to 0
-                switch(risk){
-                    case "veryLow":
-                        danger = 5;
-                    case "low":
-                        danger = 20;
-                    case "medium":
-                        danger = 40;
-                    case "hard":
-                        danger = 70;
-                    case "veryHard":
-                        danger = 90;
-                }
+                boolean dead;
+                switch (risk) {
+            case "veryLow":
+                danger = 5;
+                break;
+            case "low":
+                danger = 20;
+                break;
+            case "medium":
+                danger = 40;
+                break;
+            case "high":
+                danger = 70;
+                break;
+            case "veryHigh":
+                danger = 90;
+                break;
+        }
                 danger += (.250 * (stats[0] - 100));
                 danger += (.500 * (stats[1] - 100));
                 danger += (.125 * (stats[2] - 100));
@@ -445,8 +453,7 @@ public class ChooseYourOwnAdventure {
                 if ( random <= danger){                     // if the random number is less than or equal to the danger the test is failed
                     combatTest = false;
                     System.out.println("Dead");
-                }else if (random > danger){
-                    System.out.println("combatTest passed");
+                    dead = true;
                 }
                 return combatTest;
                 /*
@@ -465,9 +472,8 @@ public class ChooseYourOwnAdventure {
         //if(luckChance(stats, 60) == true){ System.out.println("Passed!");  
         //will return true 60% of the time with 100 luck and 60 risk, 78% of the time with 130 luck
             static boolean luckTest(int[] stats, double risk){
-            boolean trueTest = true;               // default it to false
-            int luck = stats[4];
-            double luckPercent = luck * .01;        //change luck to a percent ex. 130 to 1.3 or 30%
+            boolean trueTest = true;               // default trueTest to false
+            double luckPercent = stats[4] * .01;        //change luck to a percent ex. 130 to 1.3 or 30%
             risk = risk * luckPercent;              //generate the highest number for a success
             double random =(Math.random() * 100);   //generate a random number between 0 and 100
             if (risk < random){                     //if the random number is larger than the risk the test is passed
