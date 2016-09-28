@@ -199,7 +199,7 @@ public class ChooseYourOwnAdventure {
                                         showCoins(wallet);
                                     }
                                 }else{
-                                    JOptionPane.showMessageDialog(null,"You found the nesting place of the bats, \nYou got nothing!");
+                                    JOptionPane.showMessageDialog(null,"You found the nesting place of the bats, \nbut there was nothing there.");
                                 }
                                 int mineshaft = yesNo("Mineshaft","You arrive at a vertical mineshaft. \nWill you climb down it or exit the cave?","Climb Down","Leave");
                                 if(mineshaft == 0){
@@ -214,10 +214,33 @@ public class ChooseYourOwnAdventure {
                                             "including the bright shimmering pool of water. ", "Pick the flowers.", "go for a swim.");
                                    //Player chose to pick flowers
                                    if(cavern == 0){
-                                       JOptionPane.showMessageDialog(null,"");
+                                       System.out.println("pick the flowers");
+                                       JOptionPane.showMessageDialog(null,"You are attacked by a swarm of radiated butterflies!");
+                                       boolean butterflyCombat = combatTest(stats, "veryLow");
+                                       if (butterflyCombat == true){
+                                           JOptionPane.showMessageDialog(null,"Taking care of the butterflies was a piece of cake!");
+                                           addXp(stats,60);
+                                           System.out.println("Killed butterflies");
+                                        }else{
+                                            JOptionPane.showMessageDialog(null, "You died to a bunch of butterflies...");
+                                           dead = true;
+                                           int yn = yesNo("End", "Would you like to play again?", "Yes", "No");
+                                            if (yn == 1){
+                                                play = false;
+                                                break;
+                                            }else{
+                                                continue;
+                                            }
+                                        }
                                    //Player chose to go for a swim
                                    }else if (cavern == 1){
-                                       
+                                       System.out.println("go for a swim");
+                                       JOptionPane.showMessageDialog(null,"A feeling of power overwhelms you once\nyou enter the water.");
+                                       int pool = (int)(Math.random() * );
+                                       switch (pool){
+                                           case 0:
+                                                break;
+                                           
                                    }
 
 
