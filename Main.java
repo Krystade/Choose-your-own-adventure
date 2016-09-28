@@ -16,7 +16,7 @@ public class ChooseYourOwnAdventure {
             //Have the user open a treasure chest and recieve their class/weapon/skill
             //This determines their base stats 
                 JOptionPane.showMessageDialog(null,"You stumble upon a strange looking treasure chest. \nOpen the chest to begin you journey.");
-                int randomChoice = (int) (Math.random() * 5) + 1;
+                int randomChoice = (int) (Math.random() * 4) + 1;
                 int giveCoins = (int) (Math.random() * 30) + 12;
                 //Set array for coins [0] = gold, [1] = silver, [2] = bronze
                 int[] wallet = {0, 0, 0};
@@ -48,6 +48,20 @@ public class ChooseYourOwnAdventure {
                         break;
                         }
                         case 3: choice = "sling";
+                        addCoins(wallet, 0, giveCoins, 0);
+                        if (wallet[0] == 0){ //Check if the user gets any gold or only silver
+                            int coins = wallet[1];
+                        JOptionPane.showMessageDialog(null,"You have recieved a " + choice + " and " + coins + " silver coins from the chest!");
+                        showCoins(wallet);
+                        break;
+                        }else{
+                            int sCoin = wallet[1];
+                            JOptionPane.showMessageDialog(null,"You have recieved a gold coin and " + sCoin + " silver coins from the chest...");
+                        showCoins(wallet);
+                        break;
+                        }
+                        
+                        case 4: choice = "stick";
                         addCoins(wallet, 0, giveCoins, 0);
                         if (wallet[0] == 0){ //Check if the user gets any gold or only silver
                             int coins = wallet[1];
@@ -198,8 +212,10 @@ public class ChooseYourOwnAdventure {
                                    JOptionPane.showMessageDialog(null, "You enter an enormous, dimly lit cavern.");
                                    int cavern = yesNo("Cavern", "The floor is covered in  fluorescent flowers, lighting the \nentire space, " + 
                                             "including the bright shimmering pool of water. ", "Pick the flowers.", "go for a swim.");
+                                   //Player chose to pick flowers
                                    if(cavern == 0){
-                                       JOptionPane.showMessageDialog("");
+                                       JOptionPane.showMessageDialog(null,"");
+                                   //Player chose to go for a swim
                                    }else if (cavern == 1){
                                        
                                    }
