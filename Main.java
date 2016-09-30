@@ -236,15 +236,40 @@ public class ChooseYourOwnAdventure {
                                    }else if (cavern == 1){
                                        System.out.println("go for a swim");
                                        JOptionPane.showMessageDialog(null,"A feeling of power overwhelms you once\nyou enter the water.");
-                                       int pool = (int)(Math.random() * );
+                                       int pool = (int)(Math.random() * 5);
+                                       int[] statsOld = {stats[0],stats[1],stats[2],stats[3],stats[4],stats[5]};
+                                       statsOld(stats);
+                                       stats[pool] += 10;
                                        switch (pool){
                                            case 0:
+                                                 System.out.println("+10 health");
+                                                 JOptionPane.showMessageDialog(null, "You have raised your health by 10 points.");
                                                 break;
-                                           
+                                           case 1:
+                                                System.out.println("+10 stamina");
+                                                JOptionPane.showMessageDialog(null, "You have raised your stamina by 10 points.");
+                                                break;
+                                           case 2:
+                                                System.out.println("+10 attack");
+                                                JOptionPane.showMessageDialog(null, "You have raised your attack by 10 points.");
+                                                break;
+                                           case 3:
+                                                System.out.println("+10 speed");
+                                                JOptionPane.showMessageDialog(null, "You have raised your speed by 10 points.");
+                                                break;
+                                           case 4:
+                                                System.out.println("+10 luck");
+                                                JOptionPane.showMessageDialog(null, "You have raised your luck by 10 points.");
+                                                break;
+                                           case 5:
+                                                System.out.println("+10 magic");
+                                                JOptionPane.showMessageDialog(null, "You have raised your magic by 10 points.");
+                                                break;
+                                            }
+                                            showStats(stats, statsOld);
                                    }
 
-
-
+                                   
 
                                }
                                }if (caveYN == 1){ //If the user doesn't want to enter the cave change the number of miles walked
@@ -447,24 +472,24 @@ public class ChooseYourOwnAdventure {
             //subtractCoins(wallet, 5, 7, 45);
             //used to remove coins from user's inventory 
             static int[] subtractCoins(int[] wallet, int gold, int silver, int bronze){
-            int walletTotal = (wallet[0] * 10000) + (wallet[1] * 100) + (wallet[2]);
-            int priceTotal = (gold * 10000) + (silver * 100) + (bronze);
-            if (walletTotal < priceTotal){
-                JOptionPane.showMessageDialog(null, "You don't have enough coins.");
-            }else{
-                    while (bronze > wallet[2]){ //when there isn't enough bronze convert 1 silver to 100 bronze
-                        silver += 1;
-                        bronze -= 100;
+                int walletTotal = (wallet[0] * 10000) + (wallet[1] * 100) + (wallet[2]);
+                int priceTotal = (gold * 10000) + (silver * 100) + (bronze);
+                if (walletTotal < priceTotal){
+                    JOptionPane.showMessageDialog(null, "You don't have enough coins.");
+                }else{
+                        while (bronze > wallet[2]){ //when there isn't enough bronze convert 1 silver to 100 bronze
+                            silver += 1;
+                            bronze -= 100;
+                        }
+                        while (silver > wallet[1]){ //when there isn't enough silver convert 1 gold to 100 silver
+                            gold += 1;
+                            silver -= 100;
+                        }
+                        wallet[2] -= bronze; //remove bronze
+                        wallet[1] -= silver; //remove silver
+                        wallet[0] -= gold;   //remove gold
                     }
-                    while (silver > wallet[1]){ //when there isn't enough silver convert 1 gold to 100 silver
-                        gold += 1;
-                        silver -= 100;
-                    }
-                    wallet[2] -= bronze; //remove bronze
-                    wallet[1] -= silver; //remove silver
-                    wallet[0] -= gold;   //remove gold
-                }
-            return wallet;
+                return wallet;
             }
             ///////////////////////////////////////////////////////////////////////////make a speed test to allow the player to escape the enemy ///////////////////////////////////////////////////////////////////
             //used to calculate whether or not an attack is successful
@@ -476,22 +501,22 @@ public class ChooseYourOwnAdventure {
                 int danger = 0;                         // create variable danger, default it to 0
                 boolean dead;
                 switch (risk) {
-            case "veryLow":
-                danger = 5;
-                break;
-            case "low":
-                danger = 20;
-                break;
-            case "medium":
-                danger = 40;
-                break;
-            case "high":
-                danger = 70;
-                break;
-            case "veryHigh":
-                danger = 90;
-                break;
-        }
+                    case "veryLow":
+                        danger = 5;
+                        break;
+                    case "low":
+                        danger = 20;
+                        break;
+                    case "medium":
+                        danger = 40;
+                        break;
+                    case "high":
+                        danger = 70;
+                        break;
+                    case "veryHigh":
+                        danger = 90;
+                        break;
+                }
                 danger += (.250 * (stats[0] - 100));
                 danger += (.500 * (stats[1] - 100));
                 danger += (.125 * (stats[2] - 100));
@@ -504,15 +529,6 @@ public class ChooseYourOwnAdventure {
                     dead = true;
                 }
                 return combatTest;
-                /*
-                double luck = stats[5] * .01;
-                double attack = .05 * stats[1] * luck;
-                double hp = .025 * stats[0] * luck;
-                double magic = .025 * stats[4] * luck;
-                double stamina = .0125 * stats[2] * luck;
-                double speed = .0125 * stats[3] * luck;
-                risk -= attack - hp - magic - stamina - speed;
-                */
             }
             
             
@@ -544,13 +560,8 @@ public class ChooseYourOwnAdventure {
                 stats[7] = (int)(stats[7] + plusRequiredXp);
                 stats[8] += 1;
                 JOptionPane.showMessageDialog(null,"You leveled up!");
-                int [] statsOld = {0,0,0,0,0,0};
-                    statsOld[0] = stats[0];
-                    statsOld[1] = stats[1];
-                    statsOld[2] = stats[2];
-                    statsOld[3] = stats[3];
-                    statsOld[4] = stats[4];
-                    statsOld[5] = stats[5];
+                int [] statsOld = {stats[0],stats[1],stats[2],stats[3],stats[4],stats[5]};
+                
                 switch (stats[9]){
                     case 1:
                         stats[0] += 5;
@@ -586,7 +597,12 @@ public class ChooseYourOwnAdventure {
             }
             return stats;
         }
-        //showStats(stats);
+        
+        //statsOld(stats) -- used to save old stats before giving a new skill
+        static void statsOld (int[] stats){
+            int[] statsOld = {stats[0],stats[1],stats[2],stats[3],stats[4],stats[5]};
+        }
+        //showStats(stats, stats);
         static void showStats(int[] stats, int[] statsOld){
             JOptionPane.showMessageDialog(null, "Your Current Stats: \nHp: " +
                     statsOld[0] + "  >>>  " + stats[0] + "\nStamina: " + statsOld[1] + "  >>>  " +  stats[1] + "\nAttack: " + statsOld[2] + "  >>>  " + 
